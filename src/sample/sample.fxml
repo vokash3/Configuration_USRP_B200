@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="1021.0">
+         <children>
+            <Button fx:id="btnPath" layoutX="800.0" layoutY="103.0" mnemonicParsing="false" onAction="#btnPathClicked" text="Python Interpreter" textAlignment="CENTER" />
+            <Button fx:id="btnPathSc" disable="true" layoutX="814.0" layoutY="168.0" mnemonicParsing="false" onAction="#btnPathScClicked" text="Python Script" />
+            <TextField fx:id="pathPython" editable="false" layoutX="413.0" layoutY="103.0" prefHeight="27.0" prefWidth="353.0" />
+            <TextField fx:id="pathScript" editable="false" layoutX="413.0" layoutY="168.0" prefHeight="27.0" prefWidth="353.0" />
+            <Label layoutX="491.0" layoutY="77.0" prefHeight="17.0" prefWidth="197.0" style="-fx-font-style: italic;" text="Путь к интерпетатору python:" textAlignment="CENTER" />
+            <Label layoutX="539.0" layoutY="144.0" prefHeight="17.0" prefWidth="101.0" style="-fx-font-style: italic;" text="Путь к скрипту:" />
+            <Label layoutX="529.0" layoutY="224.0" text="Установка расписания" underline="true" wrapText="true">
+               <font>
+                  <Font name="Arial Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="352.0" layoutY="318.0" text="Время старта:" underline="true">
+               <font>
+                  <Font name="Arial Italic" size="13.0" />
+               </font>
+            </Label>
+            <Label layoutX="668.0" layoutY="295.0" text="Часы" />
+            <Label layoutX="724.0" layoutY="295.0" text="Минуты" />
+            <Label layoutX="787.0" layoutY="295.0" text="Секунды" />
+            <TextField fx:id="freqStart" alignment="CENTER" layoutX="872.0" layoutY="312.0" prefHeight="27.0" prefWidth="83.0" text="6000000" />
+            <Label layoutX="885.0" layoutY="295.0" text="Частота" />
+            <Label layoutX="370.0" layoutY="362.0" text="Стоп время:" underline="true">
+               <font>
+                  <Font name="Arial Italic" size="13.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnSave" layoutX="566.0" layoutY="391.0" mnemonicParsing="false" onAction="#btnSaveClicked" text="Сохранить расписание" disable="true"/>
+            <Button fx:id="btnStart" disable="true" layoutX="846.0" layoutY="394.0" mnemonicParsing="false" onAction="#btnStartClicked" prefHeight="84.0" prefWidth="141.0" text="Запуск программы" />
+            <Label layoutX="493.0" layoutY="36.0" text="Настройка путей к файлам" underline="true" wrapText="true">
+               <font>
+                  <Font name="Arial Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="154.0" layoutY="36.0" text="LOG" underline="true" wrapText="true">
+               <font>
+                  <Font name="Arial Bold" size="22.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="logField" editable="false" layoutX="10.0" layoutY="102.0" prefHeight="399.0" prefWidth="336.0" text="&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;ПРОГРАММА ЗАПУЩЕНА&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&#10;" wrapText="true" />
+            <Button fx:id="btnTStart" layoutX="551.0" layoutY="426.0" mnemonicParsing="false" onAction="#btnTStartClicked" prefHeight="68.0" prefWidth="197.0" text="Запуск по расписанию" disable="true"/>
+            <ComboBox fx:id="hhStart" disable="true" layoutX="653.0" layoutY="312.0" prefHeight="27.0" prefWidth="62.0" promptText="14" />
+            <ComboBox fx:id="wwStart" disable="true" layoutX="715.0" layoutY="312.0" prefHeight="27.0" prefWidth="69.0" promptText="00" />
+            <ComboBox fx:id="ssStart" disable="true" layoutX="784.0" layoutY="312.0" prefHeight="27.0" prefWidth="69.0" promptText="00" />
+            <ComboBox fx:id="ssStop" disable="true" layoutX="784.0" layoutY="356.0" prefHeight="27.0" prefWidth="69.0" promptText="00" />
+            <ComboBox fx:id="wwStop" disable="true" layoutX="715.0" layoutY="356.0" prefHeight="27.0" prefWidth="69.0" promptText="00" />
+            <ComboBox fx:id="hhStop" disable="true" layoutX="653.0" layoutY="356.0" prefHeight="27.0" prefWidth="62.0" promptText="14" />
+            <Label layoutX="787.0" layoutY="339.0" text="Секунды" />
+            <Label layoutX="724.0" layoutY="339.0" text="Минуты" />
+            <Label layoutX="668.0" layoutY="339.0" text="Часы" />
+            <DatePicker fx:id="datePickerStart" disable="true" layoutX="454.0" layoutY="312.0" />
+            <DatePicker fx:id="datePickerStop" disable="true" layoutX="454.0" layoutY="356.0" />
+            <Button fx:id="timeTableBtn" layoutX="570.0" layoutY="257.0" mnemonicParsing="false" onAction="#timeTableBtnClicked" prefHeight="27.0" prefWidth="166.0" text="Задать Расписание" disable="true"/>
+         </children>
+      </Pane>
+   </children>
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+</GridPane>
