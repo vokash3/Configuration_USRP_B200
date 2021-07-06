@@ -1,10 +1,9 @@
-package sample;
+package main;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -22,9 +21,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("gui.fxml"));
 //        FXMLLoader loader = new FXMLLoader();
-//        loader.setLocation(getClass().getResource("/sample.fxml"));
+//        loader.setLocation(getClass().getResource("/gui.fxml"));
         primaryStage.setTitle("USRP B200 Start Configuration");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);

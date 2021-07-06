@@ -1,13 +1,11 @@
-package sample;
+package main;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.lang.reflect.GenericArrayType;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -76,17 +74,6 @@ public class Controller {
     //TIMER для запуска
     Timer timer = new Timer();
     Timer timerStop = new Timer();
-
-//    String[] hours = new String[]{"00","01","02","03","04","05","06","07","08","09","10","11","12","13",
-//            "14","15","16","17","18","19","20","21","22","23"};
-//    String[] minutes = new String[]{"00","01","02","03","04","05","06","07","08","09","10","11","12","13",
-//            "14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31",
-//            "32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50",
-//            "51","52","53","54","55","56","57","58","59"};
-//    String[] seconds = new String[]{"00","01","02","03","04","05","06","07","08","09","10","11","12","13",
-//            "14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31",
-//            "32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50",
-//            "51","52","53","54","55","56","57","58","59"};
 
     //=====FILES
     File file1; // Файл интерпретатора питон
@@ -174,51 +161,7 @@ public class Controller {
 
     // Нажатие кнопки запуск скрипта
     public  void btnStartClicked() throws IOException, InterruptedException {
-
-        try{
-            procBuilder = null;
-            logField.appendText("================START================\n");
-            logField.appendText("=====================================\n");
-            //System.out.println(pyPath + " " + scPath);
-            //Runtime.getRuntime().exec(pyPath + " " + scPath);
-            procBuilder = new ProcessBuilder(pyPath, scPath);
-            // перенаправляем стандартный поток ошибок на
-            // стандартный вывод
-            procBuilder.redirectErrorStream(true);
-            // запуск программы
-            Process process = procBuilder.start();
-
-            logField.setStyle("-fx-background-color: green");
-
-            // читаем стандартный поток вывода
-            // и выводим на экран
-            InputStream stdout = process.getInputStream();
-            InputStreamReader isrStdout = new InputStreamReader(stdout);
-            BufferedReader brStdout = new BufferedReader(isrStdout);
-
-            String line = null;
-            while((line = brStdout.readLine()) != null) {
-                //System.out.println(line);
-                logField.appendText(">>> " + line + "\n");
-                if(line.equals("Empty Device Address")){
-                    logField.setStyle("-fx-background-color: red");
-                    logField.appendText("ERROR >>> " + "Устройство не найдено. Подключите USRP B200 к USB3.\n");
-                }
-            }
-            // ждем пока завершится вызванная программа
-            // и сохраняем код, с которым она завершилась в
-            // в переменную exitVal
-            // необходимо для удержания программы от преждевременного закрытия
-            int exitVal = process.waitFor();
-        }
-        catch (Exception e){
-            logField.setStyle("-fx-background-color: red");
-            logField.appendText("JAVA ERROR >>> " + e + "\n");
-//            Text error = new Text();
-//            error.setText(e.toString());
-//            error.setStyle("-fx-fill: red");
-//            logField.appendText("JAVA ERROR >>> " + error + "\n");
-        }
+        processStart();
     }
 
     public void btnSaveClicked() throws IOException {
@@ -226,23 +169,6 @@ public class Controller {
         try {
             File timeTable = new File("/Users/wolldemurr/Configuration/timetable.txt");
             FileWriter writer = new FileWriter(timeTable);
-//        Добавляем время старта
-//        if(((yyyyStart.getCharacters().toString().equals("YYYY") || yyyyStart.getCharacters().toString().equals(""))
-//            || (mmStart.getCharacters().toString().equals("MM") || mmStart.getCharacters().toString().equals(""))
-//            || (ddStart.getCharacters().toString().equals("DD") || ddStart.getCharacters().toString().equals(""))
-//            || (hhStart.getCharacters().toString().equals("HH") || hhStart.getCharacters().toString().equals(""))
-//            || (wwStart.getCharacters().toString().equals("WW") || wwStart.getCharacters().toString().equals(""))
-//            || (ssStart.getCharacters().toString().equals("ss") || ssStart.getCharacters().toString().equals(""))
-//            || (freqStart.getCharacters().toString().equals("FFFFFFFFF") || freqStart.getCharacters().toString().equals("")))
-//            && ((mmStop.getCharacters().toString().equals("MM") || mmStop.getCharacters().toString().equals(""))
-//                || (ddStop.getCharacters().toString().equals("DD") || ddStop.getCharacters().toString().equals(""))
-//                || (hhStop.getCharacters().toString().equals("HH") || hhStop.getCharacters().toString().equals(""))
-//                || (wwStop.getCharacters().toString().equals("WW") || wwStop.getCharacters().toString().equals(""))
-//                || (ssStop.getCharacters().toString().equals("ss") || ssStop.getCharacters().toString().equals("")))){
-//            logField.appendText("Введите правильную дату!\n");
-//        }else {
-//
-//        }
             writer.append((Date.valueOf(datePickerStart.getValue())).toString().replace("-", " ") + " ")
                     .append(hhStart.getSelectionModel().getSelectedItem().toString() + " ")
                     .append(wwStart.getSelectionModel().getSelectedItem().toString() + " ")
@@ -259,19 +185,6 @@ public class Controller {
         }catch(Exception e){
             logField.appendText("Вероятно, вы не указали правильно дату\n");
         }
-
-        /* СОЗДАНИЕ ФАЙЛА РАСПИСАНИЯ И ПРОВЕРКУ ФОРМАТИРОВАНИЯ ПОЛЕЙ TextField'ов
-         * РЕАЛИЗОВАТЬ В ОТДЕЛЬНОМ КЛАССЕ. НАПИСАТЬ МЕТОДЫ ДЛЯ ВЫПОЛНЕНИЯ ЭТОЙ ОПЕРАЦИИ
-         * МЕТОД ИЗ ССЫЛОЧНОЙ ПЕРЕМЕННОЙ, ДАЛЕЕ, БУДЕТ ИСПОЛЬЗОВАТЬСЯ В ЭТОМ МЕТОДЕ
-         */
-        /**
-         * @TODO Создать таймер, который будет вытаскивать данные
-         * времени из файла расписания и в соответсвии с ним запускать программу
-         * Создать и протестировать отдельную кнопку, для запуска по таймеру
-         * 2) Обеспечить подсветку красным неверно введённых значений даты
-         * и запретить в этом случае запуск. Либо реализовать интерактивный выбор даты из выпадающего списка.
-         */
-//        System.out.println(timeTable.exists());
     }
 
     public void btnTStartClicked(){
@@ -300,11 +213,6 @@ public class Controller {
         } catch (IOException e) {
             logField.appendText(e.toString());
         }
-//        finally {
-//            btnStart.setDisable(false);
-//            pathScript.setDisable(false);
-//            pathPython.setDisable(false);
-//        }
     }
 
     public void timerStart(String start, String stop){
@@ -325,35 +233,9 @@ public class Controller {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                logField.appendText("================START================\n");
-                logField.appendText("=====================================\n");
-                procBuilder = new ProcessBuilder(pyPath, scPath);
-                procBuilder.redirectErrorStream(true);
-
-                try{
-                    process = procBuilder.start();
-                    logField.setStyle("-fx-background-color: green");
-                    InputStream stdout = process.getInputStream();
-                    InputStreamReader isrStdout = new InputStreamReader(stdout);
-                    BufferedReader brStdout = new BufferedReader(isrStdout);
-
-                    String line = null;
-                    while((line = brStdout.readLine()) != null) {
-                        logField.appendText(">>> " + line + "\n");
-                        if(line.equals("Empty Device Address")){
-                            logField.setStyle("-fx-background-color: red");
-                            logField.appendText("ERROR >>> " + "Устройство не найдено. Подключите USRP B200 к USB3.\n");
-                        }
-                    }
-                    int exitVal = process.waitFor();
-                }
-                catch (Exception e){
-                    logField.setStyle("-fx-background-color: red");
-                    logField.appendText("JAVA ERROR >>> " + e + "\n");
-                }
+                processStart();
             }
         };
-
         TimerTask stopTask = new TimerTask() {
             @Override
             public void run() {
@@ -375,6 +257,7 @@ public class Controller {
                 throw new Exception("Дата окончания работы программы не может быть до старта...\n" +
                         "Измените дату.");
             }
+
             else {
                 timerStop.schedule(stopTask, calendarStop.getTime());
                 logField.appendText("Программа будет запущена в соответсвии с расписанием.");
@@ -382,6 +265,49 @@ public class Controller {
         }
         catch(Exception e){
             logField.appendText(e.toString());
+        }
+    }
+
+    //Запуск процесса
+    public void processStart(){
+        logField.appendText("================START================\n");
+        logField.appendText("=====================================\n");
+        try{
+            //System.out.println(pyPath + " " + scPath);
+            //Runtime.getRuntime().exec(pyPath + " " + scPath);
+            procBuilder = new ProcessBuilder(pyPath, scPath,freqStart.getCharacters().toString());
+            // перенаправляем стандартный поток ошибок на
+            // стандартный вывод
+            procBuilder.redirectErrorStream(true);
+            // запуск программы
+            process = procBuilder.start();
+
+            logField.setStyle("-fx-background-color: green");
+
+            // читаем стандартный поток вывода
+            // и выводим на экран
+            InputStream stdout = process.getInputStream();
+            InputStreamReader isrStdout = new InputStreamReader(stdout);
+            BufferedReader brStdout = new BufferedReader(isrStdout);
+
+            String line = null;
+            while((line = brStdout.readLine()) != null) {
+                //System.out.println(line);
+                logField.appendText(">>> " + line + "\n");
+                if(line.equals("Empty Device Address")){
+                    logField.setStyle("-fx-background-color: red");
+                    logField.appendText("ERROR >>> " + "Устройство не найдено. Подключите USRP B200 к USB3.\n");
+                }
+            }
+            // ждем пока завершится вызванная программа
+            // и сохраняем код, с которым она завершилась в
+            // в переменную exitVal
+            // необходимо для удержания программы от преждевременного закрытия
+            int exitVal = process.waitFor();
+        }
+        catch (Exception e){
+            logField.setStyle("-fx-background-color: red");
+            logField.appendText("JAVA ERROR >>> " + e + "\n");
         }
     }
 

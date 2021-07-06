@@ -28,12 +28,11 @@ import sip
 import sys
 import time
 from gnuradio import qtgui
-import os
 
 
 class top_block(gr.top_block, Qt.QWidget):
 
-    def __init__(self, centralFrequency):
+    def __init__(self):
         gr.top_block.__init__(self, "Top Block")
         Qt.QWidget.__init__(self)
         self.setWindowTitle("Top Block")
@@ -73,10 +72,9 @@ class top_block(gr.top_block, Qt.QWidget):
         		channels=range(1),
         	),
         )
-        self.uhd_usrp_source_0.set_clock_source('external', 0)
         self.uhd_usrp_source_0.set_samp_rate(samp_rate)
-        self.uhd_usrp_source_0.set_center_freq(centralFrequency, 0)
-        self.uhd_usrp_source_0.set_gain(50, 0)
+        self.uhd_usrp_source_0.set_center_freq(1600000000, 0)
+        self.uhd_usrp_source_0.set_gain(0, 0)
         self.uhd_usrp_source_0.set_antenna('RX2', 0)
         self.uhd_usrp_source_0.set_auto_dc_offset(True, 0)
         self.uhd_usrp_source_0.set_auto_iq_balance(True, 0)
@@ -147,14 +145,13 @@ class top_block(gr.top_block, Qt.QWidget):
 
 def main(top_block_cls=top_block, options=None):
 
-    print(float(sys.argv[1]))
     from distutils.version import StrictVersion
     if StrictVersion(Qt.qVersion()) >= StrictVersion("4.5.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')
         Qt.QApplication.setGraphicsSystem(style)
     qapp = Qt.QApplication(sys.argv)
 
-    tb = top_block_cls(float(sys.argv[1]))
+    tb = top_block_cls()
     tb.start()
     tb.show()
 
